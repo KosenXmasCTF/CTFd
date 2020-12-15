@@ -191,9 +191,10 @@ def test_dynamic_challenge_loses_value_properly():
             "name": "name",
             "category": "category",
             "description": "description",
-            "value": 100,
-            "slope": 20,
-            "decrease": 1,
+            "value": 500,
+            "initial": 500,
+            "slope": 1.5,
+            "decrease": 2.079,
             "state": "visible",
             "type": "dynamic",
         }
@@ -224,11 +225,19 @@ def test_dynamic_challenge_loses_value_properly():
                 assert resp["status"] == "correct"
 
                 chal = DynamicChallenge.query.filter_by(id=1).first()
-                if i >= 20:
-                    assert chal.value == chal.decrease
-                else:
-                    assert chal.initial >= chal.value
-                    assert chal.value > chal.decrease
+                assert chal.initial >= chal.value
+
+                if i == 0:
+                    # The first solver should get the maximum points
+                    assert chal.initial == chal.value
+                elif i == 10:
+                    # The value should be around half of the maximum by 10 solvers
+                    assert chal.value > 260
+                    assert chal.value < 270
+                elif i == 250:
+                    assert chal.value > 95
+                    assert chal.value < 105
+
     destroy_ctfd(app)
 
 

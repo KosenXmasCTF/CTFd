@@ -63,23 +63,20 @@ class DynamicValueChallenge(BaseChallenge):
             .count()
         )
 
-        # If the solve count is 0 we shouldn't manipulate the solve count to
+        # If the solve count is 0 we should manipulate the solve count to
         # let the math update back to normal
-        if solve_count != 0:
-            # We subtract -1 to allow the first solver to get max point value
-            solve_count -= 1
+        if solve_count == 0:
+            # Use 1 instead
+            solve_count = 1
 
         # It is important that this calculation takes into account floats.
         # Hence this file uses from __future__ import division
         value = (
-            ((challenge.decrease - challenge.initial) / (challenge.slope ** 2))
-            * (solve_count ** 2)
-        ) + challenge.initial
+            (1 + (math.log10(solve_count) ** 2) / challenge.decrease)
+            ** (-challenge.slope)
+        ) * challenge.initial
 
         value = math.ceil(value)
-
-        if value < challenge.decrease:
-            value = challenge.decrease
 
         challenge.value = value
         db.session.commit()
@@ -99,8 +96,8 @@ class DynamicValueChallenge(BaseChallenge):
             "name": challenge.name,
             "value": challenge.value,
             "initial": challenge.initial,
-            "decay": challenge.slope,
-            "minimum": challenge.decrease,
+            "slope": challenge.slope,
+            "decrease": challenge.decrease,
             "description": challenge.description,
             "category": challenge.category,
             "state": challenge.state,
@@ -129,7 +126,7 @@ class DynamicValueChallenge(BaseChallenge):
 
         for attr, value in data.items():
             # We need to set these to floats so that the next operations don't operate on strings
-            if attr in ("initial", "minimum", "decay"):
+            if attr in ("initial", "decrease", "slope"):
                 value = float(value)
             setattr(challenge, attr, value)
 
