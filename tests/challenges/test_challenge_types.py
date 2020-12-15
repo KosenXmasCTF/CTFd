@@ -17,8 +17,8 @@ def test_missing_challenge_type():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "visible",
             "type": "dynamic",
         }

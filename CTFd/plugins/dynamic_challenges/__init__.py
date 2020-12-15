@@ -17,8 +17,8 @@ class DynamicChallenge(Challenges):
         db.Integer, db.ForeignKey("challenges.id", ondelete="CASCADE"), primary_key=True
     )
     initial = db.Column(db.Integer, default=0)
-    minimum = db.Column(db.Integer, default=0)
-    decay = db.Column(db.Integer, default=0)
+    decrease = db.Column(db.Integer, default=0)
+    slope = db.Column(db.Integer, default=0)
 
     def __init__(self, *args, **kwargs):
         super(DynamicChallenge, self).__init__(**kwargs)
@@ -72,14 +72,14 @@ class DynamicValueChallenge(BaseChallenge):
         # It is important that this calculation takes into account floats.
         # Hence this file uses from __future__ import division
         value = (
-            ((challenge.minimum - challenge.initial) / (challenge.decay ** 2))
+            ((challenge.decrease - challenge.initial) / (challenge.slope ** 2))
             * (solve_count ** 2)
         ) + challenge.initial
 
         value = math.ceil(value)
 
-        if value < challenge.minimum:
-            value = challenge.minimum
+        if value < challenge.decrease:
+            value = challenge.decrease
 
         challenge.value = value
         db.session.commit()
@@ -99,8 +99,8 @@ class DynamicValueChallenge(BaseChallenge):
             "name": challenge.name,
             "value": challenge.value,
             "initial": challenge.initial,
-            "decay": challenge.decay,
-            "minimum": challenge.minimum,
+            "decay": challenge.slope,
+            "minimum": challenge.decrease,
             "description": challenge.description,
             "category": challenge.category,
             "state": challenge.state,

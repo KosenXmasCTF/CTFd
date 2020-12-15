@@ -27,8 +27,8 @@ def test_can_create_dynamic_challenge():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "hidden",
             "type": "dynamic",
         }
@@ -42,8 +42,8 @@ def test_can_create_dynamic_challenge():
         challenge = challenges[0]
         assert challenge.value == 100
         assert challenge.initial == 100
-        assert challenge.decay == 20
-        assert challenge.minimum == 1
+        assert challenge.slope == 20
+        assert challenge.decrease == 1
     destroy_ctfd(app)
 
 
@@ -55,8 +55,8 @@ def test_can_update_dynamic_challenge():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "hidden",
             "type": "dynamic",
         }
@@ -65,17 +65,17 @@ def test_can_update_dynamic_challenge():
 
         assert challenge.value == 100
         assert challenge.initial == 100
-        assert challenge.decay == 20
-        assert challenge.minimum == 1
+        assert challenge.slope == 20
+        assert challenge.decrease == 1
 
         challenge_data = {
             "name": "new_name",
             "category": "category",
             "description": "new_description",
-            "value": "200",
-            "initial": "200",
-            "decay": "40",
-            "minimum": "5",
+            "value": 200,
+            "initial": 200,
+            "slope": 40,
+            "decrease": 5,
             "max_attempts": "0",
             "state": "visible",
         }
@@ -87,8 +87,8 @@ def test_can_update_dynamic_challenge():
         assert challenge.description == "new_description"
         assert challenge.value == 200
         assert challenge.initial == 200
-        assert challenge.decay == 40
-        assert challenge.minimum == 5
+        assert challenge.slope == 40
+        assert challenge.decrease == 5
         assert challenge.state == "visible"
 
     destroy_ctfd(app)
@@ -103,8 +103,8 @@ def test_can_add_requirement_dynamic_challenge():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "hidden",
             "type": "dynamic",
         }
@@ -113,8 +113,8 @@ def test_can_add_requirement_dynamic_challenge():
 
         assert challenge.value == 100
         assert challenge.initial == 100
-        assert challenge.decay == 20
-        assert challenge.minimum == 1
+        assert challenge.slope == 20
+        assert challenge.decrease == 1
 
         challenge_data = {
             "name": "second_name",
@@ -122,8 +122,8 @@ def test_can_add_requirement_dynamic_challenge():
             "description": "new_description",
             "value": "200",
             "initial": "200",
-            "decay": "40",
-            "minimum": "5",
+            "slope": "40",
+            "decrease": "5",
             "max_attempts": "0",
             "state": "visible",
         }
@@ -135,8 +135,8 @@ def test_can_add_requirement_dynamic_challenge():
         assert challenge.description == "new_description"
         assert challenge.value == 200
         assert challenge.initial == 200
-        assert challenge.decay == 40
-        assert challenge.minimum == 5
+        assert challenge.slope == 40
+        assert challenge.decrease == 5
         assert challenge.state == "visible"
 
         challenge_data = {"requirements": [1]}
@@ -161,8 +161,8 @@ def test_can_delete_dynamic_challenge():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "hidden",
             "type": "dynamic",
         }
@@ -192,8 +192,8 @@ def test_dynamic_challenge_loses_value_properly():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "visible",
             "type": "dynamic",
         }
@@ -225,10 +225,10 @@ def test_dynamic_challenge_loses_value_properly():
 
                 chal = DynamicChallenge.query.filter_by(id=1).first()
                 if i >= 20:
-                    assert chal.value == chal.minimum
+                    assert chal.value == chal.decrease
                 else:
                     assert chal.initial >= chal.value
-                    assert chal.value > chal.minimum
+                    assert chal.value > chal.decrease
     destroy_ctfd(app)
 
 
@@ -241,8 +241,8 @@ def test_dynamic_challenge_doesnt_lose_value_on_update():
             "category": "category",
             "description": "description",
             "value": 10000,
-            "decay": 4,
-            "minimum": 10,
+            "slope": 4,
+            "decrease": 10,
             "state": "visible",
             "type": "dynamic",
         }
@@ -274,8 +274,8 @@ def test_dynamic_challenge_value_isnt_affected_by_hidden_users():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "visible",
             "type": "dynamic",
         }
@@ -331,8 +331,8 @@ def test_dynamic_challenges_reset():
             "category": "category",
             "description": "description",
             "value": 100,
-            "decay": 20,
-            "minimum": 1,
+            "slope": 20,
+            "decrease": 1,
             "state": "hidden",
             "type": "dynamic",
         }
