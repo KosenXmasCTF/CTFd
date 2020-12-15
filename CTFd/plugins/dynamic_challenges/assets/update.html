@@ -20,20 +20,20 @@
 </div>
 
 <div class="form-group">
-	<label for="value">Decay Limit<br>
+	<label for="value">Slope Constant<br>
 		<small class="form-text text-muted">
-			The amount of solves before the challenge reaches its minimum value
+			How low the score will converge to
 		</small>
 	</label>
-	<input type="number" class="form-control chal-decay" name="decay" value="{{ challenge.decay }}" required>
+	<input type="number" class="form-control chal-decay" name="slope" value="{{ challenge.slope }}" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Minimum Value<br>
+	<label for="value">Decrease Constant<br>
 		<small class="form-text text-muted">
-			This is the lowest that the challenge can be worth
+			How fast the score is getting decreased
 		</small>
 	</label>
-	<input type="number" class="form-control chal-minimum" name="minimum" value="{{ challenge.minimum }}" required>
+	<input type="number" class="form-control chal-minimum" name="decrease" value="{{ challenge.decrease }}" required>
 </div>
 {% endblock %}
