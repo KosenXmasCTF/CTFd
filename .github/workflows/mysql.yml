@@ -49,7 +49,7 @@ jobs:
       - name: Test
         run: |
             sudo rm -f /etc/boto.cfg
-            make test
+            make test PARALLEL=4
         env:
             AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
             AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
