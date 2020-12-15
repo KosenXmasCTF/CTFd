@@ -30,7 +30,7 @@ services:
     volumes:
       - ./conf/nginx/http.conf:/etc/nginx/nginx.conf
       - ./conf/nginx/cert.pem:/etc/nginx/cert.pem:ro
-      - ./conf/nginx/privkey.pem:/etc/nginx/cert.pem:ro
+      - ./conf/nginx/privkey.pem:/etc/nginx/privkey.pem:ro
     ports:
       - 443:443
     depends_on:
