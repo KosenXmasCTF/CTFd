@@ -1,3 +1,5 @@
+PARALLEL ?= auto
+
 lint:
 	flake8 --ignore=E402,E501,E712,W503,E203 --exclude=CTFd/uploads CTFd/ migrations/ tests/
 	yarn lint
@@ -17,7 +19,7 @@ test:
 		--ignore=node_modules/ \
 		-W ignore::sqlalchemy.exc.SADeprecationWarning \
 		-W ignore::sqlalchemy.exc.SAWarning \
-		-n auto
+		-n ${PARALLEL}
 	bandit -r CTFd -x CTFd/uploads --skip B105,B322
 	pipdeptree
 	yarn verify
