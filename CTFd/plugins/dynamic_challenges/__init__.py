@@ -17,8 +17,8 @@ class DynamicChallenge(Challenges):
         db.Integer, db.ForeignKey("challenges.id", ondelete="CASCADE"), primary_key=True
     )
     initial = db.Column(db.Integer, default=0)
-    decrease = db.Column(db.Integer, default=0)
-    slope = db.Column(db.Integer, default=0)
+    decrease = db.Column(db.Float, default=0)
+    slope = db.Column(db.Float, default=0)
 
     def __init__(self, *args, **kwargs):
         super(DynamicChallenge, self).__init__(**kwargs)
