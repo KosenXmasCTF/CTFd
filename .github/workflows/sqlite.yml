@@ -15,8 +15,6 @@ jobs:
     name: Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: true
 
       - name: Setup python
         uses: actions/setup-python@v2
@@ -40,6 +38,7 @@ jobs:
 
       - name: Test
         run: |
+            sudo rm -rf ./CTFd/plugins/recaptcha
             sudo rm -f /etc/boto.cfg
             make test PARALLEL=4 CAPTCHA_PROVIDER=google
         env:
