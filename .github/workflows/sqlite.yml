@@ -39,6 +39,8 @@ jobs:
       - name: Test
         run: |
             sudo rm -rf ./CTFd/plugins/recaptcha
+            git add .
+            git -c user.name='_' -c user.email='<>' commit -m '_'
             sudo rm -f /etc/boto.cfg
             make test PARALLEL=4 CAPTCHA_PROVIDER=google
         env:
