@@ -41,7 +41,7 @@ jobs:
       - name: Test
         run: |
             sudo rm -f /etc/boto.cfg
-            make test PARALLEL=4
+            make test PARALLEL=4 CAPTCHA_PROVIDER=google
         env:
             AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
             AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
