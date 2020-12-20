@@ -15,6 +15,7 @@ jobs:
     name: Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v2
+
       - name: Setup python
         uses: actions/setup-python@v2
         with:
@@ -37,8 +38,11 @@ jobs:
 
       - name: Test
         run: |
+            sudo rm -rf ./CTFd/plugins/recaptcha
+            git add .
+            git -c user.name='_' -c user.email='<>' commit -m '_'
             sudo rm -f /etc/boto.cfg
-            make test PARALLEL=4
+            make test PARALLEL=4 CAPTCHA_PROVIDER=google
         env:
             AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
             AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY

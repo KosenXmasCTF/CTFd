@@ -1,0 +1,3 @@
+[submodule "CTFd/plugins/recaptcha"]
+	path = CTFd/plugins/recaptcha
+	url = https://github.com/tamuctf/ctfd-recaptcha-plugin.git

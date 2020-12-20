@@ -47,6 +47,7 @@ jobs:
 
       - name: Lint docker-compose
         run: |
+            cp .env .env.local
             python -m pip install docker-compose==1.26.0
             docker-compose -f docker-compose.yml config
 
