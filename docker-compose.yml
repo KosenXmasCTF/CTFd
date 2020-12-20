@@ -32,6 +32,7 @@ services:
       - ./conf/nginx/cert.pem:/etc/nginx/cert.pem:ro
       - ./conf/nginx/privkey.pem:/etc/nginx/privkey.pem:ro
     ports:
+      - 80:80
       - 443:443
     depends_on:
       - ctfd
